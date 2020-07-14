@@ -10,10 +10,20 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var movieTableView: UITableView!
+    @IBOutlet weak var popularCollectionView: UICollectionView! {
+        didSet {
+            self.popularCollectionView.backgroundColor = .black
+        }
+    }
+    @IBOutlet weak var nowPlayingCollectionView: UICollectionView! {
+        didSet {
+            self.nowPlayingCollectionView.backgroundColor = .black
+        }
+    }
     
-    @IBOutlet weak var posterCollectionView: UICollectionView!
+    
     private var nowPlaying: [NowPlaying.Result] = []
+    private var popular: [NowPlaying.Result] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,14 +39,33 @@ class ViewController: UIViewController {
             }
         })
         
-        if let collectionView =  posterCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            collectionView.scrollDirection = .horizontal
+        if let nowPlayingCV =  nowPlayingCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            nowPlayingCV.scrollDirection = .horizontal
         }
         
-        let nib = UINib(nibName: "CustomCollectionCell", bundle: nil)
-        posterCollectionView.register(nib, forCellWithReuseIdentifier: "Cell")
+        if let popularCV = popularCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            popularCV.scrollDirection = .horizontal
+        }
         
+        Api.shared.getMovie(path: .popular) { result in
+            
+            let decoder = JSONDecoder()
+            let json = try? decoder.decode(NowPlaying.self, from: result)
+            
+            if let results = json?.results {
+                self.popular = results
+            }
+        }
+        
+        
+        
+        let nib = UINib(nibName: "CustomCollectionCell", bundle: nil)
+        nowPlayingCollectionView.register(nib, forCellWithReuseIdentifier: "Cell")
+        popularCollectionView.register(nib, forCellWithReuseIdentifier: "Cell")
     }
+    
+    
+    
 
 
 }
@@ -44,14 +73,39 @@ class ViewController: UIViewController {
 extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return nowPlaying.count
+        
+        guard let collectionViewId = collectionView.restorationIdentifier else {
+            return 0
+        }
+        
+        if collectionViewId == "nowPlaying" {
+            return nowPlaying.count
+        } else {
+            return popular.count
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomCollectionCell
         
-        cell.posterView.image = Utils.shared.getImage(url: "https://image.tmdb.org/t/p/w500\(nowPlaying[indexPath.row].poster_path)")
-        cell.titleLabel.text = nowPlaying[indexPath.row].title
+        guard let collectionViewId = collectionView.restorationIdentifier else {
+            return cell
+        }
+        
+        if collectionViewId == "nowPlaying" {
+            
+            cell.posterView.image = Utils.shared.getImage(url: "https://image.tmdb.org/t/p/w500\(nowPlaying[indexPath.row].poster_path)")
+            cell.titleLabel.text = nowPlaying[indexPath.row].title
+            
+        } else {
+            
+            cell.posterView.image = Utils.shared.getImage(url: "https://image.tmdb.org/t/p/w500\(popular[indexPath.row].poster_path)")
+            cell.titleLabel.text = popular[indexPath.row].title
+            
+        }
+        
+        
 
         return cell
     }

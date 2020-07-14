@@ -11,7 +11,11 @@ import UIKit
 class CustomCollectionCell: UICollectionViewCell {
 
     @IBOutlet weak var posterView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel! {
+        didSet {
+            self.titleLabel.textColor = .white
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

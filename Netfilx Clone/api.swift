@@ -14,6 +14,7 @@ class Api {
     
     public enum MoviePath : String {
         case nowPlaying = "/movie/now_playing"
+        case popular = "/movie/popular"
     }
     
     
@@ -30,7 +31,7 @@ class Api {
     
     private func get(path: String, parameters : Dictionary<String, String>?, _ completion : @escaping (Data) -> Void) {
         let request = createRequest(path: path, parameters: parameters)
-        print(request)
+        
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             
             guard error == nil else {

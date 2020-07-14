@@ -32,15 +32,17 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstItem="UvO-EB-dYy" firstAttribute="top" secondItem="ttj-wo-oKz" secondAttribute="top" id="DxM-Ng-JdP"/>
                             <constraint firstItem="UvO-EB-dYy" firstAttribute="trailing" secondItem="p8U-hJ-KYk" secondAttribute="trailing" constant="10" id="Izw-oX-Pp0"/>
                             <constraint firstAttribute="trailing" secondItem="UvO-EB-dYy" secondAttribute="trailing" id="P6Z-Kz-uao"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="TJr-rG-jKu"/>
                             <constraint firstItem="UvO-EB-dYy" firstAttribute="leading" secondItem="ttj-wo-oKz" secondAttribute="leading" id="Twf-BB-edx"/>
                             <constraint firstItem="p8U-hJ-KYk" firstAttribute="leading" secondItem="UvO-EB-dYy" secondAttribute="leading" constant="10" id="Uk7-KT-N19"/>
                             <constraint firstItem="p8U-hJ-KYk" firstAttribute="top" secondItem="UvO-EB-dYy" secondAttribute="bottom" constant="10" id="cQK-0W-Jid"/>
                             <constraint firstAttribute="width" constant="180" id="oDT-Uc-5Sk"/>
+                            <constraint firstAttribute="height" constant="243" id="ygL-D3-R8G"/>
                         </constraints>
                     </view>
                 </subviews>

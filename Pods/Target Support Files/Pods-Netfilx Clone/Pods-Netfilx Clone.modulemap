@@ -1,0 +1,6 @@
+framework module Pods_Netfilx_Clone {
+  umbrella header "Pods-Netfilx Clone-umbrella.h"
+
+  export *
+  module * { export * }
+}
